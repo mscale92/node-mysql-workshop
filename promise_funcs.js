@@ -21,7 +21,10 @@ function getQueryPromise(query){
               }
               
               else{
-                  resolve(JSON.stringify(result, null, 4))
+                  var dataArray = JSON.stringify(result, null, 4);
+                  resolve(JSON.parse(dataArray));
+                  //parse our nice and tidy string so that 
+                    //we can use our array of table data
               }
               connection.end();
               //for mods the connection needs to be ended within the function
