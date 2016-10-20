@@ -1,6 +1,19 @@
 //
-var promiseFuncs = require('./promise_funcs.js');
-    //use .query for the getQueryPromise function
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'mscale92',
+  password : '',
+  database : 'addressbook'
+});
+//have the connection and mysql mods 
+    //here so that control is always present
+    //in our program
+
+var promiseFuncs = require('./promise_funcs.js')(connection);
+    //passing the connection variable to our mod
 
 //mods
 
@@ -27,7 +40,7 @@ var queryAllNames = `
 
 var indent = '     ';
 
-promiseFuncs.query(queryAllNames)
+promiseFuncs(queryAllNames)
 .then(function(result){
     
     result.map(function(row){
@@ -65,8 +78,11 @@ promiseFuncs.query(queryAllNames)
          console.log("");
             //add a space in between each entry
     })
+    connection.end();
     // have the strings become an array so that they are grouped together
 })
 .catch(function(err){
     console.log(err);
 })
+
+//promise finally connection

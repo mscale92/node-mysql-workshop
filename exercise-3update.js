@@ -1,7 +1,23 @@
 
 require("colors");
-var promiseFuncs = require('./promise_funcs.js');
-    //use .query for the getQueryPromise function
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'mscale92',
+  password : '',
+  database : 'addressbook'
+});
+//have the connection and mysql mods 
+    //here so that control is always present
+    //in our program
+
+var promiseFuncs = require('./promise_funcs.js')(connection);
+    //passing the connection variable to our mod
+        //via a parameter
+        //the require() is just grabbing our function
+        //so a parameter can follow
 
 //mods
 
@@ -18,7 +34,7 @@ var nameQuery = `
 
 var indent = '     ';
 
-promiseFuncs.query(nameQuery)
+promiseFuncs(nameQuery)
 .then(function(result){
     
     result.map(function(row){
@@ -46,6 +62,8 @@ promiseFuncs.query(nameQuery)
             //add a space in between each entry
     })
     // have the strings become an array so that they are grouped together
+    connection.end();
+    //end our connection to our database
 })
 .catch(function(err){
     console.log(err);
