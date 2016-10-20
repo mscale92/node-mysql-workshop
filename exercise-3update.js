@@ -1,6 +1,5 @@
 
 require("colors");
-var wrap = require('word-wrap');
 var promiseFuncs = require('./promise_funcs.js');
     //use .query for the getQueryPromise function
 
